@@ -21,7 +21,7 @@ doPost() {
   action=$1
   accesskey=$2
   secret=$3
-  timestamp=`date '+%Y-%d-%dT%H:%M:%S'`
+  timestamp=`date '+%Y-%m-%dT%H:%M:%SZ'`
   action="Action=$1"
   accesskey="AWSAccessKeyId=$2"
   tsparam="Timestamp=$timestamp"
