@@ -21,6 +21,7 @@ doPost() {
   action=$1
   accesskey=$2
   secret=$3
+  params=$4
   timestamp=`date '+%Y-%m-%dT%H:%M:%SZ'`
   action="Action=$1"
   accesskey="AWSAccessKeyId=$2"
@@ -29,7 +30,11 @@ doPost() {
   signature_method="SignatureMethod=HmacSHA256"
   format="Format=json"
   ts_encoded=`echo $tsparam | sed 's/:/%3A/g'`
-  params="$accesskey&$action&$format&$signature_method&$version&$ts_encoded"
-  signature=`getsignature $secret $params`
-  echo `curl -d "$action" -d "$accesskey" -d "$tsparam" -d "$version" -d "$signature_method" -d "$format" -d "Signature=$signature" https://mosapi.meituan.com/mcs/v1`
+  auth_params="$accesskey&$action&$format&$signature_method&$version&$ts_encoded"
+  signature=`getsignature $secret $auth_params`
+  if [ -z $params ]; then 
+    echo `curl -d "$action" -d "$accesskey" -d "$tsparam" -d "$version" -d "$signature_method" -d "$format" -d "Signature=$signature" https://mosapi.meituan.com/mcs/v1`
+  else
+    echo `curl -d "$action" -d "$accesskey" -d "$tsparam" -d "$version" -d "$signature_method" -d "$format" -d "Signature=$signature" -d "$params" https://mosapi.meituan.com/mcs/v1`
+  fi  
 }
