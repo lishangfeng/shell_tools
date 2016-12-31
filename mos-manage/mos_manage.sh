@@ -12,7 +12,7 @@
 response=`doPost $1 $2 $3 $4 | jq .`
 errorResp=`echo $response | jq .ErrorResponse`
 result=`echo $response | jq .${1}Response`
-if [ -n "$result" ]; then
+if [ null = "$errorResp" ]; then
   echo $result
 else
   echo $errorResp
