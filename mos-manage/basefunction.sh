@@ -32,7 +32,7 @@ doPost() {
   ts_encoded=`echo $tsparam | sed 's/:/%3A/g'`
   auth_params="$accesskey&$action&$format&$signature_method&$version&$ts_encoded"
   signature=`getsignature $secret $auth_params`
-  if [ -z $params ]; then 
+  if [ -z "$params" ]; then 
     echo `curl -d "$action" -d "$accesskey" -d "$tsparam" -d "$version" -d "$signature_method" -d "$format" -d "Signature=$signature" https://mosapi.meituan.com/mcs/v1`
   else
     echo `curl -d "$action" -d "$accesskey" -d "$tsparam" -d "$version" -d "$signature_method" -d "$format" -d "Signature=$signature" -d "$params" https://mosapi.meituan.com/mcs/v1`
